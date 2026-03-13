@@ -28,10 +28,10 @@
 -export([auth/5]).
 
 %% Authorize on database synchronously
--spec auth(pid(), float(), database(), binary() | undefined, binary() | undefined) -> boolean().
-auth(Connection, Version, Database, Login, Password) when Version > 2.7 ->  %new authorisation
+-spec auth(pid(), modern | legacy, database(), binary() | undefined, binary() | undefined) -> boolean().
+auth(Connection, modern, Database, Login, Password) ->
   scram_sha_1_auth(Connection, Database, Login, Password);
-auth(Connection, _, Database, Login, Password) ->   %old authorisation
+auth(Connection, legacy, Database, Login, Password) ->
   mongodb_cr_auth(Connection, Database, Login, Password).
 
 
